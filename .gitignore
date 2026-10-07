@@ -1,0 +1,10 @@
+.env*
+!.env.example
+node_modules/
+.next/
+.netlify/
+__pycache__/
+.DS_Store
+*.log
+logs/
+.clasp.json
