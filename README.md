@@ -1,5 +1,7 @@
 # Gmail + Claude Reply Drafter
 
+![tests](https://github.com/ChuchoMonster/gmail-claude-reply-drafter/actions/workflows/tests.yml/badge.svg)
+
 A Google Apps Script that reads new Gmail messages and has Claude write a reply **draft** in your
 own voice. It never sends anything: drafts land in the thread for you to review, edit and send.
 
@@ -82,6 +84,13 @@ There is no `.env` file: Apps Script keeps secrets in Script Properties, not in 
 - **Behaviour rules**: the RULES / SKIP / NEVER sections in `buildSystemPrompt()`. Rule 8 is an
   example of a domain-specific rule (handling interview requests by email) — replace it with
   whatever recurring request types you get.
+
+## Tests
+
+- `node --test tests/reply-drafter.test.js` (Node 20+, no dependencies, no `npm install`).
+- `tests/harness.js` loads `reply-drafter.js` unchanged into a fresh V8 context with fake `GmailApp`, `Gmail`, `UrlFetchApp`, `PropertiesService`, `Utilities` and `Logger`.
+- Covers the sender/domain/header filters, prompt and request building, `SKIP` handling, the MIME draft and its threading headers, voice training, and the "never send" guarantee: every Gmail send/reply/forward method is a trap that fails the test.
+- No network and no API key; runs on every push and pull request via GitHub Actions.
 
 ## Cost
 
